@@ -1,0 +1,169 @@
+LAB SHEET 05
+
+QUESTION 2
+
+a) Candidate nouns
+
+Cable TV company, VTV, entertainment TV channels, person, customer,
+customer details, package, registration, customer number, customer table,
+package details, subscription, subscription table, month, bill, data,
+channel details table, website, online tasks, list of channels, weekly TV
+schedule, email, credit card, credit card details, amount, system,
+payment details, payments table and week.
+
+b) Selecting classes using the five rejection rules
+
+1. Redundant nouns
+   Person refers to Customer in this scenario, so keep Customer.
+   Entertainment TV channel and channel refer to Channel.
+   Package and subscription both describe the customer's selected channels
+   here. Keep Subscription because no separate reusable package catalogue
+   is described.
+   Weekly TV schedule and TV schedule refer to TVSchedule.
+
+2. Events or operations
+   Registration becomes a register operation.
+   Login, adding channels, removing channels, paying bills and sending
+   emails are operations rather than separate entity classes.
+
+3. Outside the scope
+   The cable TV company, VTV and the physical credit card are outside the
+   domain model. The model records payments but does not model a card issuer.
+   Website and email transport belong to the interface/infrastructure.
+   Month and week specify how often billing and notifications happen.
+
+4. Meta-language
+   System, data, details and online tasks are general descriptive terms.
+   Customer table, subscription table, channel details table and payments
+   table describe storage rather than additional domain classes.
+
+5. Attributes
+   Customer number and customer details belong to Customer.
+   Payment amount belongs to Payment.
+   Credit card details describe payment information rather than a separate
+   class in this simple analysis.
+   The list of channels requested for emails belongs to Subscription.
+
+Selected classes:
+Customer, Subscription, Channel, Bill, Payment and TVSchedule.
+
+c) Five CRC cards
+
++--------------------------------------------------------------+
+| Class: Customer                                              |
++--------------------------------------------------------------+
+| Responsibilities:                                            |
+| Store customer number and registration details.               |
+| Maintain the customer's subscription and billing links.       |
+| Provide contact details for schedule emails.                  |
+| Collaborators: Subscription, Bill, Payment                    |
++--------------------------------------------------------------+
+
++--------------------------------------------------------------+
+| Class: Subscription                                          |
++--------------------------------------------------------------+
+| Responsibilities:                                            |
+| Maintain the channels selected by a customer.                 |
+| Add and remove channels.                                     |
+| Record which channels need weekly schedule emails.            |
+| Provide selected channel details for billing.                |
+| Collaborators: Customer, Channel, Bill, TVSchedule             |
++--------------------------------------------------------------+
+
++--------------------------------------------------------------+
+| Class: Channel                                               |
++--------------------------------------------------------------+
+| Responsibilities:                                            |
+| Maintain channel details and charges used for billing.        |
+| Provide the channel's weekly TV schedule.                     |
+| Collaborators: Subscription, Bill, TVSchedule                  |
++--------------------------------------------------------------+
+
++--------------------------------------------------------------+
+| Class: Bill                                                  |
++--------------------------------------------------------------+
+| Responsibilities:                                            |
+| Calculate the monthly amount from subscribed channels.        |
+| Produce an itemised bill for the customer.                    |
+| Keep track of the bill's payment status.                      |
+| Collaborators: Customer, Subscription, Channel, Payment       |
++--------------------------------------------------------------+
+
++--------------------------------------------------------------+
+| Class: Payment                                               |
++--------------------------------------------------------------+
+| Responsibilities:                                            |
+| Record the payment amount and payment reference.              |
+| Associate the payment with a customer and bill.               |
+| Update the bill after successful payment.                     |
+| Collaborators: Customer, Bill                                 |
++--------------------------------------------------------------+
+
+QUESTION 3
+
+a) Candidate nouns
+
+Online bookshop, things, books, magazines, CDs, products, information,
+price, title, author, number of pages, artists, type, registered customers,
+orders, ordered products, shipments, store, personal customers, payments,
+delivery, business customers, invoice, customer types, credit card,
+registration, contact information, personal information, authentication,
+invoicing, bookshop system and reports.
+
+b) Selecting classes using the five rejection rules
+
+1. Redundant nouns
+   Things and ordered products refer to Product.
+   Registered customer refers to Customer.
+   Store and online bookshop refer to the same business context.
+   Keep Book, Magazine and CD as different product types because their
+   specific information differs.
+   Keep PersonalCustomer and BusinessCustomer because their payment and
+   invoicing behaviour differs.
+
+2. Events or operations
+   Registration and authentication are customer-related operations.
+   Delivery is represented by the shipment process.
+   Invoicing is an operation that creates an Invoice.
+   Adding/removing a customer, adding/viewing/updating a product,
+   making/removing/viewing an order and generating/viewing reports are
+   operations rather than extra entity classes.
+
+3. Outside the scope
+   The physical bookshop/store and physical credit card are outside this
+   model. Payment records the method and transaction information.
+
+4. Meta-language
+   System, information, details and types are descriptive words, not
+   independent domain classes.
+
+5. Attributes
+   Price and title are Product attributes.
+   Author and number of pages can be Book attributes.
+   Artist can be a CD attribute.
+   Type can be stored as product-specific information.
+   Contact and personal information belong to Customer.
+   There is no requirement to manage authors or artists independently,
+   so they are attributes in this model.
+
+Selected classes:
+Product, Book, Magazine, CD, Customer, PersonalCustomer,
+BusinessCustomer, Order, Shipment, Payment, Invoice and ProductReport.
+
+Main relationships:
+Book, Magazine and CD extend Product.
+PersonalCustomer and BusinessCustomer extend Customer.
+A Customer can place several Orders.
+An Order contains several Products.
+An Order can have several Shipments.
+A Shipment records which ordered products are included in that delivery.
+An Invoice is associated with a business customer's order.
+A Payment is associated with an order or its invoice.
+ProductReport uses Product information to produce reports.
+
+An OrderItem class can also be added during detailed design to keep the
+quantity and price of each product in an order. It is derived from the
+order-product relationship rather than being an explicit noun in the text.
+
+The sheet explicitly asks for Question 3 to be submitted to Git.
+Suggested commit message: Lab05 - Question03
